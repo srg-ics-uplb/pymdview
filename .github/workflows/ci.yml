@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: check
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: format --check
+
+  test:
+    # Test on the system Python with the exact package versions each Ubuntu release ships.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies (keep in sync with CONTRIBUTING.md)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 \
+            python3-markdown python3-markdown-it python3-mdit-py-plugins \
+            python3-pygments python3-linkify-it \
+            python3-pytest xvfb xauth
+
+      - name: Unit tests
+        run: /usr/bin/python3 -m pytest -v
+
+      - name: Smoke test (GTK imports)
+        run: |
+          xvfb-run -a ./bin/pymdview --version
+          xvfb-run -a /usr/bin/python3 -c "import sys; sys.path.insert(0, '.'); import pymdview.window"
+
+      - name: Build .deb
+        run: |
+          ./build-deb.sh
+          dpkg-deb -c pymdview_*_all.deb
+          dpkg-deb -I pymdview_*_all.deb

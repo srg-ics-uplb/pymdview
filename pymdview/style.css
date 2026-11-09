@@ -1,0 +1,67 @@
+/* Page styles for rendered Markdown. Colours are CSS variables set per theme
+   (body.light / body.dark) near the bottom of this file. */
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; padding: 40px 32px 80px;
+  font: 16px/1.65 "Ubuntu", "Cantarell", "Noto Sans", "DejaVu Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body.light { background: #ffffff; color: #1f2328; }
+body.dark  { background: #1e1e1e; color: #d4d4d4; }
+main { max-width: 860px; margin: 0 auto; }
+
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; margin: 1.6em 0 .6em; font-weight: 650; }
+h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--rule); }
+h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--rule); }
+h3 { font-size: 1.25em; } h4 { font-size: 1em; } h5 { font-size: .9em; }
+h6 { font-size: .85em; color: var(--muted); }
+main > :first-child { margin-top: 0; }
+p, ul, ol, dl, table, pre, blockquote { margin: 0 0 1em; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+hr { border: 0; height: 2px; background: var(--rule); margin: 2em 0; }
+img { max-width: 100%; height: auto; }
+ul, ol { padding-left: 2em; }
+li + li { margin-top: .25em; }
+li.task, li.task-list-item { list-style: none; margin-left: -1.4em; }
+li.task input, li.task-list-item input { margin: 0 .45em 0 0; vertical-align: middle; }
+blockquote { margin-left: 0; padding: 0 1em; color: var(--muted); border-left: 4px solid var(--rule); }
+dt { font-weight: 650; } dd { margin: 0 0 .5em 1.5em; }
+
+code, pre, kbd { font-family: "Ubuntu Mono", "DejaVu Sans Mono", "Noto Mono", monospace; }
+code { font-size: .9em; padding: .15em .35em; border-radius: 5px; background: var(--code-bg); }
+pre { font-size: .88em; line-height: 1.5; padding: 14px 16px; overflow: auto;
+      border-radius: 8px; background: var(--code-bg); }
+pre code { padding: 0; background: none; font-size: 1em; }
+.highlight { border-radius: 8px; margin-bottom: 1em; }
+.highlight pre { margin: 0; background: transparent; }
+body.light { --hl-bg: #f6f8fa; } body.dark { --hl-bg: #272822; }
+div.highlight { background: var(--hl-bg); }
+kbd { font-size: .85em; padding: .1em .4em; border: 1px solid var(--rule);
+      border-bottom-width: 2px; border-radius: 4px; }
+
+table { border-collapse: collapse; display: block; overflow: auto; max-width: 100%; }
+th, td { padding: 6px 13px; border: 1px solid var(--rule); }
+th { font-weight: 650; background: var(--code-bg); }
+tr:nth-child(2n) td { background: var(--stripe); }
+
+.toc { padding: .8em 1.2em; border: 1px solid var(--rule); border-radius: 8px; display: inline-block; }
+.toc ul { padding-left: 1.2em; margin: 0; }
+.footnote, .footnotes { font-size: .9em; color: var(--muted); }
+.footnotes-sep { margin-top: 2.5em; }
+pre.highlight { background: var(--hl-bg); }
+.admonition { padding: .6em 1em; border-left: 4px solid var(--link);
+              background: var(--code-bg); border-radius: 0 6px 6px 0; margin-bottom: 1em; }
+.admonition-title { font-weight: 650; margin-bottom: .3em; }
+
+body.light { --rule: #d1d9e0; --muted: #59636e; --link: #0969da;
+             --code-bg: rgba(129,139,152,.12); --stripe: #f6f8fa; }
+body.dark  { --rule: #3c3c3c; --muted: #9da5b0; --link: #4daafc;
+             --code-bg: rgba(110,118,129,.22); --stripe: #252526; }
+
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center;
+         min-height: 70vh; color: var(--muted); text-align: center; }
+.empty h1 { border: 0; font-size: 1.6em; margin: 0 0 .4em; color: inherit; }
+.empty p { margin: .2em 0; }

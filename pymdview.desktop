@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=PyMDView
+GenericName=Markdown Viewer
+Comment=View Markdown files with live reload
+Exec=pymdview %F
+Icon=pymdview
+Terminal=false
+Categories=Office;Viewer;TextTools;Utility;GTK;
+MimeType=text/markdown;text/x-markdown;
+Keywords=markdown;md;readme;preview;viewer;
+StartupNotify=true
+StartupWMClass=pymdview

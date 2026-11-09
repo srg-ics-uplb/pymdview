@@ -4,17 +4,21 @@ on:
   push:
   pull_request:
 
+env:
+  # Pinned so a new ruff release can't break CI; bump it deliberately.
+  RUFF_VERSION: "0.17.4"
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/ruff-action@v3
-        with:
-          args: check
-      - uses: astral-sh/ruff-action@v3
-        with:
-          args: format --check
+      - uses: actions/checkout@v5
+      - name: Install ruff
+        run: pip install "ruff==${RUFF_VERSION}"
+      - name: Lint
+        run: ruff check .
+      - name: Check formatting
+        run: ruff format --check .
 
   test:
     # Test on the system Python with the exact package versions each Ubuntu release ships.
@@ -24,7 +28,7 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies (keep in sync with CONTRIBUTING.md)
         run: |
@@ -32,8 +36,12 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 \
             python3-markdown python3-markdown-it python3-mdit-py-plugins \
-            python3-pygments python3-linkify-it \
+            python3-pygments \
             python3-pytest xvfb xauth
+          # Optional, and not packaged for every release (missing on 22.04).
+          if apt-cache show python3-linkify-it >/dev/null 2>&1; then
+            sudo apt-get install -y --no-install-recommends python3-linkify-it
+          fi
 
       - name: Unit tests
         run: /usr/bin/python3 -m pytest -v

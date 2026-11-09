@@ -17,7 +17,8 @@ Edit `sample.md` while it is open to see the live reload.
 
 ```bash
 python3 -m pytest                 # unit tests (no display needed)
-ruff check . && ruff format .     # lint + format (pipx install ruff, or use CI)
+pip install --user ruff==0.17.4  # same version as CI (RUFF_VERSION in ci.yml)
+ruff check . && ruff format .     # lint + format
 ```
 
 CI (`.github/workflows/ci.yml`) runs on every push and pull request, on Ubuntu 22.04 and 24.04. It runs ruff, the tests, a GTK import smoke test under Xvfb, and a `.deb` build.
@@ -75,7 +76,7 @@ This is the canonical list. When you change it, also update **all three** places
 | `python3-markdown` | required (fallback renderer) |
 | `python3-markdown-it`, `python3-mdit-py-plugins` | recommended (CommonMark + GitHub extras) |
 | `python3-pygments` | recommended (syntax highlighting) |
-| `python3-linkify-it` | optional (auto-link bare URLs) |
+| `python3-linkify-it` | optional (auto-link bare URLs; not packaged on 22.04) |
 
 ## Common changes
 
